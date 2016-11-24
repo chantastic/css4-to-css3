@@ -1,20 +1,28 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
 
 class App extends Component {
+  state = {
+    output: ""
+  }
+
+  handleChange = (e) =>
+    this.setState({
+      output: e.target.value
+    })
+
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div>
+        <textarea
+          onChange={this.handleChange}
+        />
+        <pre>
+          <code>
+            {this.state.output}
+          </code>
+        </pre>
       </div>
-    );
+    )
   }
 }
 
