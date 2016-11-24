@@ -16,4 +16,4 @@ body{font-family: -apple-system, BlinkMacSystemFont, sans-serif}
 .bc-gray2{border-color: #e9ecef}
 
 /* ReactCodeMirror */
-.CodeMirror{height: calc(100vh - 3.5rem)}
+.CodeMirror{height: calc(100vh - 6.5rem)}

@@ -5,6 +5,9 @@ import CodeMirror from "react-codemirror"
 
 import "codemirror/lib/codemirror.css"
 import "codemirror/mode/css/css"
+import "select.css/select.css"
+
+import * as samples from "./samples"
 
 const processor = (css4, callback) =>
   postcss([cssnext])
@@ -39,6 +42,9 @@ class App extends Component {
 
   handleChange = (css4) => this.updateWithCSS(css4)
 
+  appendSample = ({target: {value}}) =>
+    this.updateWithCSS(this.state.input + samples[value])
+
   render() {
     return (
       <Root>
@@ -48,8 +54,32 @@ class App extends Component {
           <CodeMirror
             onChange={this.handleChange}
             options={{mode: "css", autofocus: true}}
+            preserveScrollPosition={true}
             value={this.state.input}
           />
+          <select
+            className="select"
+            onChange={this.appendSample}
+            style={{width: "100%", marginBottom: "1rem"}}
+            value=""
+          >
+            <option value="">Insert Sample...</option>
+            <option value="customPropertyVar">Custom property (var)</option>
+            <option value="customPropertyApply">Custom property (@apply)</option>
+            <option value="reducedCalc">Reduced calc()</option>
+            <option value="customMediaQuery">Custom media query</option>
+            <option value="mediaQueryRange">Media query range</option>
+            <option value="customSelector">Custom selector</option>
+            <option value="nesting">Nesting</option>
+            <option value="colorFunction">color() function</option>
+            <option value="hwbFunction">hwb() function</option>
+            <option value="grayFunction">gray() function</option>
+            <option value="rrggbbaaColors">#rrggbbaa colors</option>
+            <option value="filterProperty">filter property</option>
+            <option value="anyLinkPseudoClass">:any-link psuedo-class</option>
+            <option value="matchesPseudoClass">:matches psuedo-class</option>
+            <option value="notPseudoClass">:not psuedo-class</option>
+          </select>
         </Column>
 
         <Column>
@@ -58,6 +88,7 @@ class App extends Component {
           <CodeMirror
             value={this.state.output}
             options={{mode: "css", readOnly: true}}
+            preserveScrollPosition={true}
           />
         </Column>
       </Root>
