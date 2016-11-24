@@ -3,16 +3,18 @@ import postcss from "postcss"
 import cssnext from "postcss-cssnext"
 import CodeMirror from "react-codemirror"
 
-require('codemirror/lib/codemirror.css')
-require('codemirror/mode/css/css');
+import "codemirror/lib/codemirror.css"
+import "codemirror/mode/css/css"
 
 const processor = (css4, callback) =>
   postcss([cssnext])
     .process(css4)
-    .then(result => callback(result.css))
+    .then(
+      result => callback(result.css),
+      ({message}) => callback(message)
+    )
 
-const starterCSS = `
-:root { --pink: #f3c }
+const starterCSS = `:root { --pink: #f3c }
 
 .pink { color: var(--pink) }
 `
@@ -39,29 +41,39 @@ class App extends Component {
 
   render() {
     return (
-      <div style={{ display: "flex" }}>
-        <div style={{ flex: 1 }}>
-          <h4>CSS4</h4>
+      <Root>
+        <Column>
+          <Heading>cssnext</Heading>
+
           <CodeMirror
             onChange={this.handleChange}
-            options={{mode: "css"}}
+            options={{mode: "css", autofocus: true}}
             value={this.state.input}
           />
-        </div>
+        </Column>
 
-        <div style={{ flex: 1 }}>
-          <h4>CSS3</h4>
+        <Column>
+          <Heading>CSS</Heading>
+
           <CodeMirror
             value={this.state.output}
-            options={{
-              mode: "css",
-              readOnly: true,
-            }}
+            options={{mode: "css", readOnly: true}}
           />
-      </div>
-      </div>
+        </Column>
+      </Root>
     )
   }
 }
+
+// private
+
+const Root = props =>
+  <div className="d-f" {...props} />
+
+const Column = props =>
+  <div className="f-50vw xw-50vw px-2 brw-1p:fc bc-gray2" {...props} />
+
+const Heading = props =>
+  <h4 className="mb-2 fw-900" {...props} />
 
 export default App
